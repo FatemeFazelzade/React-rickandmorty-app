@@ -1,1 +1,2 @@
-🌟 Overview: <br/><br/><img width="1398" height="639" alt="Screenshot 2026-10-18 at 14 50 41" src="https://github.com/user-attachments/assets/bd179cf0-d7f2-4e91-88de-fafe40ac14b0" />
+🌟 Overview: <br/><br/><img width="698" height="472" alt="Screenshot 2026-10-18 at 14 55 55" src="https://github.com/user-attachments/assets/72734e5f-9ee1-4a4b-ab71-3259f2f4f5ca" />
+
