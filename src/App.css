@@ -180,7 +180,7 @@ body {
 .character-card {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 10px;
   padding: 8px;
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -213,7 +213,7 @@ body {
   cursor: pointer;
 }
 
-.character-select img {
+.character-card img {
   width: 56px;
   height: 56px;
   flex-shrink: 0;
@@ -226,17 +226,19 @@ body {
 }
 
 .character-card-info h3 {
-  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
   font-size: 0.9rem;
   overflow-wrap: anywhere;
 }
 
-.character-card-info p,
 .character-status {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin: 0;
+  gap: 4px;
+  margin: 0 2px;
   color: var(--text-secondary);
   font-size: 0.8rem;
 }
@@ -261,7 +263,6 @@ body {
 
 /* Status indicators */
 .status-dot {
-  display: inline-block;
   width: 8px;
   height: 8px;
   flex-shrink: 0;

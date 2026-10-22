@@ -3,6 +3,11 @@ function CharacterDetails() {
     <section className="character-content">
       <article className="details-card">
         <div className="profile-header">
+          <img
+            src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+            alt="Rick Sanchez"
+          />
+
           <div className="profile-info">
             <h1>Rick Sanchez</h1>
 
