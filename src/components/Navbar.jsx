@@ -1,22 +1,14 @@
-import { Search, Heart } from "lucide-react";
+import { Heart, Search as SearchIcon } from "lucide-react";
 
-function Navbar({ numOfResults }) {
+export function Navbar({ children }) {
   return (
     <nav className="navbar">
       <a className="navbar-logo" href="/">
         Rick <span>&</span> Morty
       </a>
-      <form className="navbar-search">
-        <input
-          type="search"
-          placeholder="Search characters..."
-          aria-label="Search characters"
-        />
-        <button type="submit" aria-label="Search">
-          <Search size={20} />
-        </button>
-      </form>
-      <div>Found {numOfResults} characters!</div>
+
+      {children}
+
       <button className="favorites-button" type="button">
         <Heart size={20} />
         <span>Favorites</span>
@@ -26,4 +18,23 @@ function Navbar({ numOfResults }) {
   );
 }
 
-export default Navbar;
+export function Search({ query, setQuery }) {
+  return (
+    <form className="navbar-search">
+      <input
+        value={query}
+        type="search"
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search characters..."
+        aria-label="Search characters"
+      />
+      <button type="submit" aria-label="Search">
+        <SearchIcon size={20} />
+      </button>
+    </form>
+  );
+}
+
+export function NumOfSearch({ numOfResults }) {
+  return <div>Found {numOfResults} characters!</div>;
+}

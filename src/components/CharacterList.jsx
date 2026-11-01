@@ -1,13 +1,17 @@
-import { Heart } from "lucide-react";
+import { Eye } from "lucide-react";
 
-function CharacterList({ characters }) {
+function CharacterList({ characters, onSelectCharacter }) {
   return (
     <aside className="character-sidebar">
       <h2>Characters</h2>
 
       <div className="character-list">
         {characters.map((item) => (
-          <Character key={item.id} item={item} />
+          <Character
+            key={item.id}
+            item={item}
+            onSelectCharacter={onSelectCharacter}
+          />
         ))}
       </div>
     </aside>
@@ -16,7 +20,7 @@ function CharacterList({ characters }) {
 
 export default CharacterList;
 
-function Character({ item }) {
+function Character({ item, onSelectCharacter }) {
   return (
     <div className="character-card">
       <img src={item.image} alt={item.name} />
@@ -35,9 +39,10 @@ function Character({ item }) {
       </div>
       <button
         className="favorite-icon"
-        aria-label="Add Morty Smith to favorites"
+        aria-label="Add favorites"
+        onClick={() => onSelectCharacter(item.id)}
       >
-        <Heart size={18} />
+        <Eye size={18} />
       </button>
     </div>
   );

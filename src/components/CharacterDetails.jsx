@@ -1,30 +1,77 @@
+import axios from "axios";
 import { ArrowUpCircleIcon, Heart } from "lucide-react";
-import { character, episodes } from "../../data/data";
-import { useState } from "react";
+import Loader from "./Loader";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-function CharacterDetails() {
+function CharacterDetails({ selectedId }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [character, setCharacter] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [episodes, setEpisodes] = useState([]);
+
+  useEffect(() => {
+    if (!selectedId) return;
+
+    async function fetchData() {
+      try {
+        setIsLoading(true);
+
+        const { data } = await axios.get(
+          `https://rickandmortyapi.com/api/character/${selectedId}`,
+        );
+        setCharacter(data);
+
+        const episodeIds = data.episode
+          .map((e) => e.split("/").at(-1))
+          .slice(0, 5);
+        const { data: epData } = await axios.get(
+          `https://rickandmortyapi.com/api/episode/${episodeIds}`,
+        );
+
+        setEpisodes(Array.isArray(epData) ? epData : [epData]);
+      } catch (error) {
+        toast.error(
+          error.response?.data?.error || "Failed to fetch character details",
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [selectedId]);
+
+  if (isLoading)
+    return (
+      <div style={{ flex: 1 }}>
+        <Loader />
+      </div>
+    );
+
+  if (!character)
+    return (
+      <div style={{ flex: 1, color: "var(--slate-300)" }}>
+        Please select a character.
+      </div>
+    );
 
   return (
     <section className="character-content">
       <article className="details-card">
         <div className="profile-header">
           <img src={character.image} alt={character.name} />
-
           <div className="profile-info">
             <h1>{character.name}</h1>
-
             <div className="profile-meta">
               <div>
                 <span>Gender</span>
                 <p>{character.gender}</p>
               </div>
-
               <div>
                 <span>Origin</span>
                 <p>{character.origin.name}</p>
               </div>
-
               <div>
                 <span>Last known location</span>
                 <p>{character.location.name}</p>
@@ -35,7 +82,6 @@ function CharacterDetails() {
             </div>
           </div>
         </div>
-
         <div className="profile-footer">
           <span>Episodes featured in</span>
           <strong>{episodes.length}</strong>
@@ -46,7 +92,6 @@ function CharacterDetails() {
         <button
           className="episodes-heading"
           onClick={() => setIsExpanded(!isExpanded)}
-          aria-expanded={isExpanded}
         >
           <h2>List of Episodes</h2>
           <ArrowUpCircleIcon
@@ -62,7 +107,6 @@ function CharacterDetails() {
                   {String(index + 1).padStart(2, "0")}. {item.episode}
                 </span>
                 <h3>{item.name}</h3>
-
                 <div className="episode-date">
                   <span>Air date</span>
                   <p>{item.air_date}</p>
