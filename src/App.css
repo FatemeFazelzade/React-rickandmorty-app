@@ -155,7 +155,6 @@ body {
   padding: 12px 0;
   color: var(--text-secondary);
 }
-
 /* Character sidebar */
 .character-sidebar {
   min-width: 0;
@@ -174,12 +173,19 @@ body {
   max-height: 75vh;
   overflow-y: auto;
   padding-right: 4px;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.character-list::-webkit-scrollbar {
+  display: none;
 }
 
 /* Character cards */
 .character-card {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   padding: 8px;
   background-color: var(--bg-card);
@@ -223,6 +229,7 @@ body {
 
 .character-card-info {
   min-width: 0;
+  flex: 1;
 }
 
 .character-card-info h3 {
@@ -231,9 +238,10 @@ body {
   gap: 4px;
   margin: 0;
   font-size: 0.9rem;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
 .character-status {
   display: flex;
   align-items: center;
@@ -249,6 +257,7 @@ body {
   place-items: center;
   flex-shrink: 0;
   padding: 8px;
+  margin-left: auto; /* ۳. قلب را کاملاً می‌چسباند به لبه راست */
   color: var(--text-secondary);
   background: transparent;
   border: none;
@@ -338,6 +347,42 @@ body {
   overflow-wrap: anywhere;
 }
 
+.profile-favorites-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: fit-content;
+  min-width: 0;
+  padding: 16px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.profile-favorites-button:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+.profile-favorites-button svg {
+  flex-shrink: 0;
+  color: var(--accent-primary);
+  transition: transform 0.2s ease;
+}
+
+.profile-favorites-button:hover svg {
+  transform: scale(1.1);
+}
+
 /* Profile footer */
 .profile-footer {
   display: flex;
@@ -359,16 +404,38 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  width: 100%;
   min-width: 0;
+  padding: 16px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.episodes-heading:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
 }
 
 .episodes-heading h2 {
-  margin-bottom: 0;
+  margin: 0;
+  font-size: 1rem;
 }
 
-.episodes-heading > span {
-  color: var(--text-secondary);
-  font-size: 0.85rem;
+.episodes-heading svg {
+  flex-shrink: 0;
+  color: var(--accent-primary);
+  transition: transform 0.2s ease;
+}
+
+.episodes-heading .arrow-rotated {
+  transform: rotate(180deg);
 }
 
 .episodes-grid {
@@ -376,13 +443,15 @@ body {
   grid-template-columns: 1fr;
   gap: 12px;
   margin-top: 16px;
+  padding: 0;
+  list-style: none;
 }
 
 .episode-card {
   min-width: 0;
   padding: 16px;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
+  background-color: #1e2a3c;
+  border: 1px solid #344258;
   border-radius: 12px;
   transition:
     border-color 0.2s ease,
@@ -405,6 +474,12 @@ body {
   margin: 10px 0 16px;
   font-size: 1rem;
   overflow-wrap: anywhere;
+  color: var(--text-primary);
+}
+
+.episode-date span {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
 }
 
 .episode-date p {

@@ -1,13 +1,12 @@
 import { Heart } from "lucide-react";
-import { allCharacters } from "../../date/data";
 
-function CharacterList() {
+function CharacterList({ characters }) {
   return (
     <aside className="character-sidebar">
       <h2>Characters</h2>
 
       <div className="character-list">
-        {allCharacters.map((item) => (
+        {characters.map((item) => (
           <Character key={item.id} item={item} />
         ))}
       </div>

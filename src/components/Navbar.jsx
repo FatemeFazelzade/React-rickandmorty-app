@@ -1,6 +1,6 @@
 import { Search, Heart } from "lucide-react";
 
-function Navbar() {
+function Navbar({ numOfResults }) {
   return (
     <nav className="navbar">
       <a className="navbar-logo" href="/">
@@ -16,6 +16,7 @@ function Navbar() {
           <Search size={20} />
         </button>
       </form>
+      <div>Found {numOfResults} characters!</div>
       <button className="favorites-button" type="button">
         <Heart size={20} />
         <span>Favorites</span>
