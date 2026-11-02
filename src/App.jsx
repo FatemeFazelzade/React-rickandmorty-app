@@ -2,11 +2,53 @@ import "./App.css";
 import CharacterDetails from "./components/CharacterDetails";
 import CharacterList from "./components/CharacterList";
 import { Navbar, Search, NumOfSearch, Favorite } from "./components/Navbar";
-import Modal from "./components/Modal";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import axios from "axios";
 import useLocalStorage from "./hooks/useLocalStorage";
+
+const defaultCharacters = [
+  {
+    id: 1,
+    name: "Rick Sanchez",
+    image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+    species: "Human",
+    status: "Alive",
+    gender: "Male",
+  },
+  {
+    id: 2,
+    name: "Morty Smith",
+    image: "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
+    species: "Human",
+    status: "Alive",
+    gender: "Male",
+  },
+  {
+    id: 3,
+    name: "Summer Smith",
+    image: "https://rickandmortyapi.com/api/character/avatar/3.jpeg",
+    species: "Human",
+    status: "Alive",
+    gender: "Female",
+  },
+  {
+    id: 4,
+    name: "Beth Smith",
+    image: "https://rickandmortyapi.com/api/character/avatar/4.jpeg",
+    species: "Human",
+    status: "Alive",
+    gender: "Female",
+  },
+  {
+    id: 5,
+    name: "Jerry Smith",
+    image: "https://rickandmortyapi.com/api/character/avatar/5.jpeg",
+    species: "Human",
+    status: "Alive",
+    gender: "Male",
+  },
+];
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -16,6 +58,10 @@ function App() {
   const [favorites, setFavorites] = useLocalStorage("FAVORITES", []);
 
   useEffect(() => {
+    if (query.length < 2) {
+      return;
+    }
+
     const controller = new AbortController();
 
     async function fetchData() {
@@ -41,9 +87,6 @@ function App() {
         setIsLoading(false);
       }
     }
-    if (query.length < 2) {
-      return;
-    }
 
     fetchData();
 
@@ -66,14 +109,15 @@ function App() {
 
   const isAddToFavorite = favorites.map((fav) => fav.id).includes(selectedId);
 
+  const displayedCharacters = query.length < 2 ? defaultCharacters : characters;
+
   return (
     <>
       <Toaster position="top-center" richColors closeButton />
-      <Modal />
       <div>
         <Navbar>
           <Search query={query} setQuery={setQuery} />
-          <NumOfSearch numOfResults={characters.length} />
+          <NumOfSearch numOfResults={displayedCharacters.length} />
           <Favorite
             favorites={favorites}
             onDeleteFavourite={handleRemoveFavourite}
@@ -84,7 +128,7 @@ function App() {
             "Data is loading..."
           ) : (
             <CharacterList
-              characters={characters}
+              characters={displayedCharacters}
               onSelectCharacter={handleSelectCharacter}
               selectedId={selectedId}
             />
