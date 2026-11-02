@@ -8,12 +8,6 @@ export function Navbar({ children }) {
       </a>
 
       {children}
-
-      <button className="favorites-button" type="button">
-        <Heart size={20} />
-        <span>Favorites</span>
-        <span className="favorites-count">5</span>
-      </button>
     </nav>
   );
 }
@@ -37,4 +31,14 @@ export function Search({ query, setQuery }) {
 
 export function NumOfSearch({ numOfResults }) {
   return <div>Found {numOfResults} characters!</div>;
+}
+
+export function Favorite({ favorites }) {
+  return (
+    <button className="favorites-button" type="button">
+      <Heart size={20} />
+      <span>Favorites</span>
+      <span className="favorites-count">{favorites?.length ?? 0}</span>
+    </button>
+  );
 }

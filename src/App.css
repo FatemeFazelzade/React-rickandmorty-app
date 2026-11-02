@@ -202,7 +202,7 @@ body {
 
 .character-card.selected {
   background-color: var(--bg-secondary);
-  border-color: var(--accent-primary);
+  border-color: var(--accent-secondary);
 }
 
 .character-select {

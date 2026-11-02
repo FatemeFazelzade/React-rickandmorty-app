@@ -4,7 +4,7 @@ import Loader from "./Loader";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-function CharacterDetails({ selectedId }) {
+function CharacterDetails({ selectedId, onAddFavorites, isAddToFavorite }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [character, setCharacter] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,16 +17,16 @@ function CharacterDetails({ selectedId }) {
       try {
         setIsLoading(true);
 
-        const { data } = await axios.get(
+        const { data: charData } = await axios.get(
           `https://rickandmortyapi.com/api/character/${selectedId}`,
         );
-        setCharacter(data);
+        setCharacter(charData);
 
-        const episodeIds = data.episode
+        const episodeIds = charData.episode
           .map((e) => e.split("/").at(-1))
           .slice(0, 5);
         const { data: epData } = await axios.get(
-          `https://rickandmortyapi.com/api/episode/${episodeIds}`,
+          `https://rickandmortyapi.com/api/episode/${episodeIds.join(",")}`,
         );
 
         setEpisodes(Array.isArray(epData) ? epData : [epData]);
@@ -76,9 +76,19 @@ function CharacterDetails({ selectedId }) {
                 <span>Last known location</span>
                 <p>{character.location.name}</p>
               </div>
-              <button className="profile-favorites-button">
-                Add to favorites <Heart size={18} />
-              </button>
+              <div>
+                {isAddToFavorite ? (
+                  <p>Already Added To Favorites ✅</p>
+                ) : (
+                  <button
+                    className="profile-favorites-button"
+                    onClick={() => onAddFavorites(character)}
+                  >
+                    Add to Favorite
+                    <Heart size={18} />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

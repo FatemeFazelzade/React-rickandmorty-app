@@ -1,6 +1,6 @@
 import { Eye } from "lucide-react";
 
-function CharacterList({ characters, onSelectCharacter }) {
+function CharacterList({ characters, onSelectCharacter, selectedId }) {
   return (
     <aside className="character-sidebar">
       <h2>Characters</h2>
@@ -11,6 +11,7 @@ function CharacterList({ characters, onSelectCharacter }) {
             key={item.id}
             item={item}
             onSelectCharacter={onSelectCharacter}
+            isSelected={selectedId === item.id}
           />
         ))}
       </div>
@@ -20,9 +21,9 @@ function CharacterList({ characters, onSelectCharacter }) {
 
 export default CharacterList;
 
-function Character({ item, onSelectCharacter }) {
+function Character({ item, onSelectCharacter, isSelected }) {
   return (
-    <div className="character-card">
+    <div className={`character-card ${isSelected ? "selected" : ""}`}>
       <img src={item.image} alt={item.name} />
       <div className="character-card-info">
         <h3>
@@ -39,7 +40,7 @@ function Character({ item, onSelectCharacter }) {
       </div>
       <button
         className="favorite-icon"
-        aria-label="Add favorites"
+        aria-label="View details"
         onClick={() => onSelectCharacter(item.id)}
       >
         <Eye size={18} />

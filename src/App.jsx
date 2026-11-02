@@ -1,7 +1,7 @@
 import "./App.css";
 import CharacterDetails from "./components/CharacterDetails";
 import CharacterList from "./components/CharacterList";
-import { Navbar, Search, NumOfSearch } from "./components/Navbar";
+import { Navbar, Search, NumOfSearch, Favorite } from "./components/Navbar";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import axios from "axios";
@@ -11,7 +11,11 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const [favorites, setFavorites] = useState([]);
+
   useEffect(() => {
+    const controller = new AbortController();
+
     async function fetchData() {
       try {
         setIsLoading(true);
@@ -33,12 +37,23 @@ function App() {
     if (query.length < 2) {
       return;
     }
+
     fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, [query]);
 
   const handleSelectCharacter = (id) => {
     setSelectedId(id);
   };
+
+  const handleAddFavourite = (char) => {
+    setFavorites((preFav) => [...preFav, char]);
+  };
+
+  const isAddToFavorite = favorites.map((fav) => fav.id).includes(selectedId);
 
   return (
     <>
@@ -47,6 +62,7 @@ function App() {
         <Navbar>
           <Search query={query} setQuery={setQuery} />
           <NumOfSearch numOfResults={characters.length} />
+          <Favorite favorites={favorites} />
         </Navbar>
         <main className="app-layout">
           {isLoading ? (
@@ -55,9 +71,14 @@ function App() {
             <CharacterList
               characters={characters}
               onSelectCharacter={handleSelectCharacter}
+              selectedId={selectedId}
             />
           )}
-          <CharacterDetails selectedId={selectedId} />
+          <CharacterDetails
+            selectedId={selectedId}
+            onAddFavorites={handleAddFavourite}
+            isAddToFavorite={isAddToFavorite}
+          />
         </main>
       </div>
     </>
