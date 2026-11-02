@@ -1,4 +1,7 @@
-import { Heart, Search as SearchIcon } from "lucide-react";
+import { Heart, Search as SearchIcon, TrashIcon } from "lucide-react";
+import Modal from "./Modal";
+import { useState } from "react";
+import { Character } from "./CharacterList";
 
 export function Navbar({ children }) {
   return (
@@ -6,7 +9,6 @@ export function Navbar({ children }) {
       <a className="navbar-logo" href="/">
         Rick <span>&</span> Morty
       </a>
-
       {children}
     </nav>
   );
@@ -33,12 +35,30 @@ export function NumOfSearch({ numOfResults }) {
   return <div>Found {numOfResults} characters!</div>;
 }
 
-export function Favorite({ favorites }) {
+export function Favorite({ favorites, onDeleteFavourite }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <button className="favorites-button" type="button">
-      <Heart size={20} />
-      <span>Favorites</span>
-      <span className="favorites-count">{favorites?.length ?? 0}</span>
-    </button>
+    <>
+      <Modal onOpen={setIsOpen} open={isOpen} title="List of Favourites">
+        {favorites.map((item) => (
+          <Character key={item.id} item={item}>
+            <button
+              className="trash-icon"
+              onClick={() => onDeleteFavourite(item.id)}
+            >
+              <TrashIcon />
+            </button>
+          </Character>
+        ))}
+      </Modal>
+      <button
+        className={`favorites-button ${isOpen ? "active" : ""}`}
+        onClick={() => setIsOpen((is) => !is)}
+      >
+        <Heart />
+        <span className="favorites-count">{favorites.length}</span>
+      </button>
+    </>
   );
 }

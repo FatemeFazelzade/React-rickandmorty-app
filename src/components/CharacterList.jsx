@@ -21,30 +21,38 @@ function CharacterList({ characters, onSelectCharacter, selectedId }) {
 
 export default CharacterList;
 
-function Character({ item, onSelectCharacter, isSelected }) {
+export function Character({ item, onSelectCharacter, isSelected, children }) {
   return (
     <div className={`character-card ${isSelected ? "selected" : ""}`}>
-      <img src={item.image} alt={item.name} />
-      <div className="character-card-info">
-        <h3>
-          <span>{item.gender === "Male" ? "👨🏻‍🦰" : "👩🏻‍🦰"}</span>
-          <span>{item.name}</span>
-        </h3>
-        <p className="character-status">
-          <span
-            className={`status-dot ${item.status === "Dead" ? "dead" : "alive"}`}
-          ></span>
-          <span>{item.status}</span>
-          <span>- {item.species}</span>
-        </p>
-      </div>
-      <button
-        className="favorite-icon"
-        aria-label="View details"
-        onClick={() => onSelectCharacter(item.id)}
+      <div
+        className="character-select"
+        onClick={() => onSelectCharacter && onSelectCharacter(item.id)}
       >
-        <Eye size={18} />
-      </button>
+        <img src={item.image} alt={item.name} />
+        <div className="character-card-info">
+          <h3>
+            <span>{item.gender === "Male" ? "👨🏻‍🦰" : "👩🏻‍🦰"}</span>
+            <span>{item.name}</span>
+          </h3>
+          <p className="character-status">
+            <span
+              className={`status-dot ${item.status === "Dead" ? "dead" : "alive"}`}
+            ></span>
+            <span>{item.status}</span>
+            <span>- {item.species}</span>
+          </p>
+        </div>
+      </div>
+      {children}
+      {onSelectCharacter && (
+        <button
+          className="favorite-icon"
+          aria-label="View details"
+          onClick={() => onSelectCharacter(item.id)}
+        >
+          <Eye size={18} />
+        </button>
+      )}
     </div>
   );
 }

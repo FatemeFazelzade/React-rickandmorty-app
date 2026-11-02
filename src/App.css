@@ -558,3 +558,120 @@ body {
 .animate-spin {
   animation: spin 1s linear infinite;
 }
+
+/* Backdrop background covering the screen */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+}
+
+/* Main modal container box */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #1f2937;
+  color: #f3f4f6;
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.3),
+    0 10px 10px -5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+/* Modal header containing title and close button */
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #374151;
+}
+
+/* Modal title typography */
+.modal__header .title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Close button base styling */
+.modal__header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+/* Close button hover state */
+.modal__header button:hover {
+  color: #f3f4f6;
+  background-color: #374151;
+}
+
+/* Close icon dimensions */
+.modal__header .icon.close {
+  width: 24px;
+  height: 24px;
+}
+
+/* Smooth fade-in and scale animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Trash action button inside modal character card */
+.trash-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-error);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+  margin-left: auto;
+}
+
+/* Trash button hover feedback */
+.trash-icon:hover {
+  background-color: rgba(248, 113, 113, 0.15);
+  transform: scale(1.1);
+}
+
+/* Trash icon svg size */
+.trash-icon svg {
+  width: 20px;
+  height: 20px;
+}
