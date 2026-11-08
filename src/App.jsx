@@ -2,10 +2,10 @@ import "./App.css";
 import CharacterDetails from "./components/CharacterDetails";
 import CharacterList from "./components/CharacterList";
 import { Navbar, Search, NumOfSearch, Favorite } from "./components/Navbar";
-import { useEffect, useState } from "react";
-import { Toaster, toast } from "sonner";
-import axios from "axios";
+import { useState } from "react";
+import { Toaster } from "sonner";
 import useLocalStorage from "./hooks/useLocalStorage";
+import useCharacters from "./hooks/useCharacter";
 
 const defaultCharacters = [
   {
@@ -51,49 +51,11 @@ const defaultCharacters = [
 ];
 
 function App() {
-  const [characters, setCharacters] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [favorites, setFavorites] = useLocalStorage("FAVORITES", []);
 
-  useEffect(() => {
-    if (query.length < 2) {
-      return;
-    }
-
-    const controller = new AbortController();
-
-    async function fetchData() {
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get(
-          `https://rickandmortyapi.com/api/character?name=${query}`,
-          { signal: controller.signal },
-        );
-        setCharacters(data.results.slice(0, 5));
-      } catch (err) {
-        if (axios.isCancel(err)) {
-          return;
-        } else {
-          setCharacters([]);
-          toast.error(
-            err.response?.data?.error ||
-              err.message ||
-              "Failed to fetch characters",
-          );
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchData();
-
-    return () => {
-      controller.abort();
-    };
-  }, [query]);
+  const { characters, isLoading } = useCharacters(query);
 
   const handleSelectCharacter = (id) => {
     setSelectedId(id);
